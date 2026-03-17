@@ -48,27 +48,72 @@ const DeliveryBoyDashboard = ({earning}: {earning: number}) => {
 
   useEffect(() => {
     const socket = getSocket();
-    if (!userData?._id) return;
-    if (!navigator.geolocation) return;
+    if (!userData?._id || !navigator.geolocation) return;
 
-    const watcher = navigator.geolocation.watchPosition((pos) => {
-      const lat = pos.coords.latitude;
-      const lon = pos.coords.longitude;
-      setDeliveryBoyLocation({
-        latitude: lat,
-        longitude: lon,
-      });
-      socket.emit("update-location", {
-        userId: userData?._id,
-        latitude: lat,
-        longitude: lon,
-      });
-    });
+    // 1. Function to sync identity
+    const syncIdentity = () => {
+      socket.emit("identity", userData._id);
+    };
 
-    return () => navigator.geolocation.clearWatch(watcher);
+    // 2. Sync immediately and on every reconnection
+    syncIdentity();
+    socket.on("connect", syncIdentity);
+
+    // 3. High-Accuracy Watcher
+    const watcher = navigator.geolocation.watchPosition(
+      (pos) => {
+        const { latitude, longitude } = pos.coords;
+        setDeliveryBoyLocation({ latitude, longitude });
+
+        socket.emit("update-location", {
+          userId: userData._id,
+          latitude,
+          longitude,
+        });
+      },
+      (err) => {
+        console.error("GPS Error:", err.message);
+        // Optional: Alert the user if they turned off GPS
+        if (err.code === 1)
+          alert("Please enable Location Services to receive orders.");
+      },
+      {
+        enableHighAccuracy: true,
+        timeout: 15000,
+        maximumAge: 0,
+      },
+    );
+
+    return () => {
+      navigator.geolocation.clearWatch(watcher);
+      socket.off("connect", syncIdentity); // Clean up listener
+    };
   }, [userData?._id]);
 
+  // useEffect(() => {
+  //   const socket = getSocket();
+  //   if (!userData?._id) return;
+  //   if (!navigator.geolocation) return;
+
+  //   const watcher = navigator.geolocation.watchPosition((pos) => {
+  //     const lat = pos.coords.latitude;
+  //     const lon = pos.coords.longitude;
+  //     setDeliveryBoyLocation({
+  //       latitude: lat,
+  //       longitude: lon,
+  //     });
+  //     socket.emit("update-location", {
+  //       userId: userData?._id,
+  //       latitude: lat,
+  //       longitude: lon,
+  //     });
+  //   });
+
+  //   return () => navigator.geolocation.clearWatch(watcher);
+  // }, [userData?._id]);
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  
   useEffect((): any => {
     const socket = getSocket();
 
