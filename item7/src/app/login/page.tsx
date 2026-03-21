@@ -36,11 +36,12 @@ const handleLogin = async (e: FormEvent) => {
   setLoading(true);
   try {
     await signIn("credentials", {
+      redirect: false,
       email,
       password,
     });
-      router.push("/");
     setLoading(false);
+    router.push("/");
   } catch (error) {
     console.log(error);
     setLoading(false);

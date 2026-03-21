@@ -3,13 +3,12 @@ import AdminDashboardClient from './AdminDashboardClient'
 import connectDb from '@/lib/db';
 import Order from '@/models/order.model';
 import User from '@/models/user.model';
-import Food from '@/models/food.model';
 
 async function AdminDashboard() {
   await connectDb();
   const orders = await Order.find({});
   const users = await User.find({ role: "user" });
-  const groceries = await Food.find({});
+  // const groceries = await Food.find({});
 
   const totalOrders = orders.length;
   const totalCustomers = users.length;

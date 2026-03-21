@@ -5,6 +5,7 @@ import CategorySlide from "./CategorySlide";
 import FoodItemCard from "./FoodItemCard";
 import connectDb from "@/lib/db";
 import Food, { IFood } from "@/models/food.model";
+import Footer from "./Footer";
 
 const UserDashboard = async ({foodList}: {foodList: IFood[]}) => {
   await connectDb();
@@ -26,6 +27,7 @@ const UserDashboard = async ({foodList}: {foodList: IFood[]}) => {
           ))}
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

@@ -81,7 +81,7 @@ const Nav = ({ user }: { user: IUser }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setMenuOpen(false)}
-            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[9998]"
+            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[99900]"
           />
 
           <motion.div
@@ -89,7 +89,7 @@ const Nav = ({ user }: { user: IUser }) => {
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: -300 }}
             transition={{ type: "spring", stiffness: 200, damping: 25 }}
-            className="fixed top-0 left-0 h-full w-[280px] sm:w-[320px] z-[9999] bg-gradient-to-b from-emerald-900 via-green-800 to-emerald-950 shadow-2xl flex flex-col border-r border-white/10"
+            className="fixed top-0 left-0 h-full w-[280px] sm:w-[320px] z-[9999] bg-gradient-to-b from-emerald-900 via-green-800 to-emerald-950 shadow-2xl  z-[1000000000000000000000000000] flex flex-col border-r border-white/10"
           >
             <div className="p-6 border-b border-white/10 flex justify-between items-center text-white">
               <div className="flex items-center gap-2">
