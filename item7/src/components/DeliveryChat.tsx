@@ -125,18 +125,18 @@ function DeliveryChat({ orderId, deliveryBoyId }: Props) {
               key={i}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className={`flex ${msg.senderId.toString() === deliveryBoyId ? "justify-end" : "justify-start"}`}
+              className={`flex ${msg.senderId?.toString() === deliveryBoyId ? "justify-end" : "justify-start"}`}
             >
               <div
                 className={`px-4 py-3 max-w-[85%] rounded-[1.5rem] text-sm font-bold shadow-sm ${
-                  msg.senderId.toString() === deliveryBoyId
+                  msg.senderId?.toString() === deliveryBoyId
                     ? "bg-emerald-600 text-white rounded-tr-none shadow-emerald-50"
                     : "bg-slate-100 text-slate-800 rounded-tl-none border border-slate-200"
                 }`}
               >
                 <p className="leading-relaxed">{msg.text}</p>
                 <span
-                  className={`text-[8px] mt-1.5 block font-black uppercase opacity-60 ${msg.senderId.toString() === deliveryBoyId ? "text-right" : "text-left"}`}
+                  className={`text-[8px] mt-1.5 block font-black uppercase opacity-60 ${msg.senderId?.toString() === deliveryBoyId ? "text-right" : "text-left"}`}
                 >
                   {msg.time}
                 </span>
